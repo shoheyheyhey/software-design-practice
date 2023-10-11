@@ -4,17 +4,14 @@ class Rental(private val movies: List<Movie>, private val daysRented: Int) {
     fun calculateCharge(): Int {
 
         return movies.sumOf { movie ->
-            movie.calculateCharge(daysRented = daysRented)
+            movie.getPrice(daysRented = daysRented)
         }
     }
 
     fun calculatePoint(): Int {
         return movies.sumOf { movie ->
-            movie.calculatePoint()
+            movie.getPoint()
         }
     }
 
 }
-
-
-

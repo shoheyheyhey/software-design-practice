@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class TestRental {
-    val rental = Rental(listOf(Movie.movieFactory(Movie.Category.CHILDREN), Movie.movieFactory(Movie.Category.REGULAR), Movie.movieFactory(Movie.Category.NEW)), 10)
+    val rental = Rental(listOf(Movie(PriceFactory.factory(MovieType.CHILDREN)), Movie(PriceFactory.factory(MovieType.REGULAR)), Movie(PriceFactory.factory(MovieType.NEW))), 10)
 
 
     @Nested
