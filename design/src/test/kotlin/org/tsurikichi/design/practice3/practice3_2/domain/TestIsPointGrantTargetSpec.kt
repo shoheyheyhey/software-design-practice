@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 
-class TestPointCalculateSpec {
+class TestIsPointGrantTargetSpec {
 
     @AfterEach
     fun afterEach() {
@@ -20,11 +20,11 @@ class TestPointCalculateSpec {
     inner class Execute {
 
         @Test
-        fun `Goldランクの会員にキャンペーン期間中のポイントが算出できる`() {
+        fun `Goldランクの会員はポイント付与対象と判定できる`() {
 
             val campaignStartDate = LocalDate.of(2023, 10, 1)
             val campaignEndDate = LocalDate.of(2023, 11, 1)
-            val now = LocalDate.of(2023,10,1)
+            val now = LocalDate.of(2023, 10, 1)
             mockkStatic(LocalDate::class)
             every { LocalDate.now() } returns now
 
@@ -34,20 +34,20 @@ class TestPointCalculateSpec {
                 campaignEndDate = campaignEndDate,
                 pointRate = 0.01
             )
-            val target = PointCalculateSpec()
+            val target = IsPointGrantTargetSpec()
 
-            val actual = target.execute(rank, campaign, 1000)
+            val actual = target.execute(rank, campaign)
 
 
-            Assertions.assertEquals(10, actual)
+            Assertions.assertTrue(actual)
         }
 
         @Test
-        fun `Bronzeランクの会員のポイントは0になる`() {
+        fun `Bronzeランクの会員はポイント付与対象外と判定できる`() {
 
             val campaignStartDate = LocalDate.of(2023, 10, 1)
             val campaignEndDate = LocalDate.of(2023, 11, 1)
-            val now = LocalDate.of(2023,10,1)
+            val now = LocalDate.of(2023, 10, 1)
             mockkStatic(LocalDate::class)
             every { LocalDate.now() } returns now
 
@@ -57,21 +57,21 @@ class TestPointCalculateSpec {
                 campaignEndDate = campaignEndDate,
                 pointRate = 0.01
             )
-            val target = PointCalculateSpec()
+            val target = IsPointGrantTargetSpec()
 
-            val actual = target.execute(rank, campaign, 1000)
+            val actual = target.execute(rank, campaign)
 
 
-            Assertions.assertEquals(0, actual)
+            Assertions.assertFalse(actual)
         }
 
         @Test
-        fun `キャンペーン期間外のポイントは0になる`() {
+        fun `キャンペーン期間外はポイント付与対象外と判断できる`() {
 
 
             val campaignStartDate = LocalDate.of(2023, 10, 1)
             val campaignEndDate = LocalDate.of(2023, 11, 1)
-            val now = LocalDate.of(2023,12,1)
+            val now = LocalDate.of(2023, 12, 1)
             mockkStatic(LocalDate::class)
             every { LocalDate.now() } returns now
 
@@ -81,14 +81,13 @@ class TestPointCalculateSpec {
                 campaignEndDate = campaignEndDate,
                 pointRate = 0.01
             )
-            val target = PointCalculateSpec()
+            val target = IsPointGrantTargetSpec()
 
-            val actual = target.execute(rank, campaign, 1000)
+            val actual = target.execute(rank, campaign)
 
 
-            Assertions.assertEquals(0, actual)
+            Assertions.assertFalse(actual)
         }
-
 
 
     }

@@ -3,10 +3,8 @@ package org.tsurikichi.design.practice3.practice3_2.domain
 import kotlin.math.floor
 
 class PointCalculateSpec {
-    fun execute(rank: Rank, campaign: Campaign, purchaseAmount: Int): Int {
-        if (campaign.pointRate == null) return 0
-        if (RankType.BRONZE == rank.rankType) return 0
-        return floor(purchaseAmount * campaign.pointRate).toInt()
+    fun execute(rate: Double, purchaseAmount: Int): Int {
+        return floor(rate * purchaseAmount).toInt()
 
     }
 
