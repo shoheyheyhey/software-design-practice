@@ -1,12 +1,12 @@
 package org.tsurikichi.design.practice5.practice5_3.domain
 
-class GoldUserRankDelivery: UserRankDelivery {
+class SilverRankDelivery: Delivery {
     override fun getPostage(purchaseAmount: Int): Int {
-        return 0
+        return if (purchaseAmount >= 3_000) 0 else 50
     }
 
     override fun canTodayDelivery(): Boolean {
-        return true
+        return false
     }
 
 }

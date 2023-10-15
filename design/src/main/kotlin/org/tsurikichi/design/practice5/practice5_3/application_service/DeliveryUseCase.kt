@@ -1,7 +1,7 @@
 package org.tsurikichi.design.practice5.practice5_3.application_service
 
-import org.tsurikichi.design.practice5.practice5_3.domain.UserRank
-import org.tsurikichi.design.practice5.practice5_3.domain.UserRankDelivery
+import org.tsurikichi.design.practice5.practice5_3.domain.Rank
+import org.tsurikichi.design.practice5.practice5_3.domain.Delivery
 import java.time.LocalDate
 
 
@@ -18,10 +18,10 @@ class DeliveryUseCase {
         if (previousMonthlyTotalAmount == null) throw IllegalArgumentException("前月の購入金額を設定してください")
         if (today.isAfter(deliveryDate)) throw IllegalArgumentException("配送日が過去の日付です")
 
-        val userRank = UserRank.create(previousMonthlyTotalAmount)
-        val userRankDelivery = UserRankDelivery.factory(userRank.rankType)
+        val rank = Rank.create(previousMonthlyTotalAmount)
+        val delivery = Delivery.factory(rank.rankType)
 
-        return "canTodayDelivery: ${userRankDelivery.canTodayDelivery()}, postage: ${userRankDelivery.getPostage(purchaseAmount)}"
+        return "canTodayDelivery: ${delivery.canTodayDelivery()}, postage: ${delivery.getPostage(purchaseAmount)}"
 
     }
 
