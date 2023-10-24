@@ -50,16 +50,16 @@ class PaymentCreateUseCase(
     }
 
     fun execute(param: Param) {
-        val member = memberRepository.findBy(param.memberCode)
+        val paymentMemberBeforeUsePoints = memberRepository.findBy(param.memberCode)
+        val paymentMember = if (param.usePoints != null) { paymentMemberBeforeUsePoints.usePoints(param.usePoints) } else { paymentMemberBeforeUsePoints }
         val useCoupon = param.couponCode?.let { useCouponRepository.findBy(it) }
         val paymentPurchases = param.paymentPurchases.map { PaymentPurchase.create(it.memberCompanyGoodsCode, it.purchaseQuantity, it.goodsPrice, useCoupon) }
         val paymentMethods = param.paymentMethods.map { PaymentMethod.create(it.paymentMethodCode, it.paymentMethodAmount) }
-        val payment = Payment(param.receiptNumber, param.paymentDate, param.paymentAmount, param.usePoints, member.memberCode, param.shopCode, useCoupon?.couponCode, paymentMethods, paymentPurchases)
+        val payment = Payment(param.receiptNumber, param.paymentDate, param.paymentAmount, param.usePoints, paymentMember, param.shopCode, useCoupon?.couponCode, paymentMethods, paymentPurchases)
 
         paymentRepository.save(payment)
 
         val distributionCoupon = distributeCouponRepository.findBy(param.memberCode)
         distributionCoupon?.let { distributeCouponRepository.update(it) }
-        param.usePoints?.let { memberRepository.update(member.usePoints(it)) }
     }
 }

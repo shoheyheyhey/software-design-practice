@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.tsurikichi.design.ddd.practice1.application.payment.PaymentCreateUseCase
 import org.tsurikichi.design.ddd.practice1.domain.share.CouponCode
 import org.tsurikichi.design.ddd.practice1.domain.share.GoodsPrice
 import org.tsurikichi.design.ddd.practice1.domain.share.MemberCode
@@ -15,7 +16,6 @@ import org.tsurikichi.design.ddd.practice1.domain.share.PurchaseQuantity
 import org.tsurikichi.design.ddd.practice1.domain.share.ReceiptNumber
 import org.tsurikichi.design.ddd.practice1.domain.share.ShopCode
 import org.tsurikichi.design.ddd.practice1.domain.shop.MemberCompanyGoodsCode
-import org.tsurikichi.design.ddd.practice1.application.payment.PaymentCreateUseCase
 
 @RestController
 @RequestMapping("/payments")
