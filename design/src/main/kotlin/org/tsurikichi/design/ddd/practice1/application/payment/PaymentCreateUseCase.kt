@@ -60,5 +60,6 @@ class PaymentCreateUseCase(
 
         val distributionCoupon = distributeCouponRepository.findBy(param.memberCode)
         distributionCoupon?.let { distributeCouponRepository.update(it) }
+        param.usePoints?.let { memberRepository.update(member.usePoints(it)) }
     }
 }
