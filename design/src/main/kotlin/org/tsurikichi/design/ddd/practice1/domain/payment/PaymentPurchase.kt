@@ -21,8 +21,8 @@ class PaymentPurchase private constructor(
             goodsPrice: GoodsPrice,
             useCoupon: UseCoupon?
         ): PaymentPurchase {
-            val pointRate = if (useCoupon != null) { useCoupon.pointGrantRate?.value } else { PAYMENT_PURCHASE_POINT_RATE }
-            val grantPoint = floor(purchaseQuantity.value * goodsPrice.value * pointRate!!).toInt()
+            val pointRate = useCoupon?.pointRate?.value ?: PAYMENT_PURCHASE_POINT_RATE
+            val grantPoint = floor(purchaseQuantity.value * goodsPrice.value * pointRate).toInt()
 
             return PaymentPurchase(
                 memberCompanyGoodsCode,

@@ -26,7 +26,7 @@ class Campaign private constructor(
 
     fun calculateCampaignPoint(purchaseAmount: Int): Int {
         if (!isValidCampaign()) return 0
-        return floor(pointRate!! * purchaseAmount).toInt() // ここではpointRateが必ず入る想定
+        return floor(pointRate * purchaseAmount).toInt() // ここではpointRateが必ず入る想定
     }
 
     private fun isValidCampaign(): Boolean {

@@ -1,19 +1,19 @@
 package org.tsurikichi.design.ddd.practice1.domain.coupon
 
 import org.tsurikichi.design.ddd.practice1.domain.share.CouponCode
-import org.tsurikichi.design.ddd.practice1.domain.share.PointGrantRate
+import org.tsurikichi.design.ddd.practice1.domain.share.PointRate
 import org.tsurikichi.design.ddd.practice1.domain.share.ShopCode
 import org.tsurikichi.design.ddd.practice1.domain.shop.MemberCompanyGoodsCode
 import java.time.LocalDate
 
 class UseCoupon private constructor(
     val couponCode: CouponCode,
-    val pointGrantRate: PointGrantRate
+    val pointRate: PointRate
 ) {
     companion object {
         fun create(
             couponCode: CouponCode,
-            pointGrantRate: PointGrantRate,
+            pointRate: PointRate,
             usageStartDate: LocalDate,
             usageEndDate: LocalDate,
             couponUsableShopCodes: List<ShopCode>,
@@ -27,7 +27,7 @@ class UseCoupon private constructor(
             if (couponUsableShopCodes.isNotEmpty() && !couponUsableShopCodes.contains(paymentShopCode)) throw IllegalArgumentException("クーポンの利用対象外の店舗です")
             if (couponUsableMemberCompanyGoodsCodes.isNotEmpty() && !couponUsableMemberCompanyGoodsCodes.any { it in paymentPurchaseGoodsCodes }) throw IllegalArgumentException("クーポンの利用対象外の商品です")
 
-            return UseCoupon(couponCode, pointGrantRate)
+            return UseCoupon(couponCode, pointRate)
         }
     }
 }
