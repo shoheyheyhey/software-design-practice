@@ -10,7 +10,7 @@ import kotlin.math.floor
 class PaymentPurchase private constructor(
     val memberCompanyGoodsCode: MemberCompanyGoodsCode,
     private val purchaseQuantity: PurchaseQuantity,
-    private val goodsPrice: GoodsPrice,
+    val goodsPrice: GoodsPrice,
     private val grantPoint: Point
 ) {
     companion object {

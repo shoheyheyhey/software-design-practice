@@ -18,4 +18,9 @@ class Payment(
     private val couponCode: CouponCode?,
     private val paymentMethod: List<PaymentMethod>,
     private val paymentPurchase: List<PaymentPurchase>
-)
+) {
+    init {
+        if (paymentAmount.value != paymentMethod.sumOf { it.paymentAmount.value }) throw IllegalArgumentException("支払金額が不正です")
+        if (paymentAmount.value != paymentPurchase.map { it.goodsPrice.value }.sum()) throw IllegalArgumentException("支払金額が不正です")
+    }
+}
