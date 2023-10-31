@@ -2,10 +2,8 @@ package org.tsurikichi.design.ddd.practice1.application.payment
 
 import org.springframework.stereotype.Service
 import org.tsurikichi.design.ddd.practice1.domain.coupon.IDistributionCouponRepository
-import org.tsurikichi.design.ddd.practice1.domain.coupon.IUseCouponRepository
-import org.tsurikichi.design.ddd.practice1.domain.member.IPaymentMemberRepository
 import org.tsurikichi.design.ddd.practice1.domain.payment.IPaymentRepository
-import org.tsurikichi.design.ddd.practice1.domain.payment.Payment
+import org.tsurikichi.design.ddd.practice1.domain.payment.PaymentFactory
 import org.tsurikichi.design.ddd.practice1.domain.payment.PaymentMethod
 import org.tsurikichi.design.ddd.practice1.domain.payment.PaymentPurchase
 import org.tsurikichi.design.ddd.practice1.domain.share.CouponCode
@@ -23,9 +21,8 @@ import org.tsurikichi.design.ddd.practice1.domain.shop.MemberCompanyGoodsCode
 @Service
 class PaymentCreateUseCase(
     private val paymentRepository: IPaymentRepository,
-    private val useCouponRepository: IUseCouponRepository,
     private val distributeCouponRepository: IDistributionCouponRepository,
-    private val memberRepository: IPaymentMemberRepository
+    private val paymentFactory: PaymentFactory
 ) {
     data class Param(
         val receiptNumber: ReceiptNumber,
@@ -50,12 +47,19 @@ class PaymentCreateUseCase(
     }
 
     fun execute(param: Param) {
-        val paymentMemberBeforeUsePoints = memberRepository.findBy(param.memberCode)
-        val paymentMember = if (param.usePoints != null) { paymentMemberBeforeUsePoints.usePoints(param.usePoints) } else { paymentMemberBeforeUsePoints }
-        val useCoupon = param.couponCode?.let { useCouponRepository.findBy(it) }
-        val paymentPurchases = param.paymentPurchases.map { PaymentPurchase.create(it.memberCompanyGoodsCode, it.purchaseQuantity, it.goodsPrice, useCoupon) }
+        val paymentPurchases = param.paymentPurchases.map { PaymentPurchase.create(it.memberCompanyGoodsCode, it.purchaseQuantity, it.goodsPrice) }
         val paymentMethods = param.paymentMethods.map { PaymentMethod.create(it.paymentMethodCode, it.paymentMethodAmount) }
-        val payment = Payment(param.receiptNumber, param.paymentDate, param.paymentAmount, param.usePoints, paymentMember, param.shopCode, useCoupon?.couponCode, paymentMethods, paymentPurchases)
+        val payment = paymentFactory.create(
+            param.receiptNumber,
+            param.paymentDate,
+            param.paymentAmount,
+            param.memberCode,
+            param.usePoints,
+            param.shopCode,
+            param.couponCode,
+            paymentPurchases,
+            paymentMethods
+        )
 
         paymentRepository.save(payment)
 

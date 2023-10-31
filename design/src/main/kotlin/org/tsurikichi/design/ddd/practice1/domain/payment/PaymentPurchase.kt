@@ -18,11 +18,9 @@ class PaymentPurchase private constructor(
         fun create(
             memberCompanyGoodsCode: MemberCompanyGoodsCode,
             purchaseQuantity: PurchaseQuantity,
-            goodsPrice: GoodsPrice,
-            useCoupon: UseCoupon?
+            goodsPrice: GoodsPrice
         ): PaymentPurchase {
-            val pointRate = useCoupon?.pointRate?.value ?: PAYMENT_PURCHASE_POINT_RATE
-            val grantPoint = floor(purchaseQuantity.value * goodsPrice.value * pointRate).toInt()
+            val grantPoint = floor(purchaseQuantity.value * goodsPrice.value * PAYMENT_PURCHASE_POINT_RATE).toInt()
 
             return PaymentPurchase(
                 memberCompanyGoodsCode,
@@ -31,5 +29,16 @@ class PaymentPurchase private constructor(
                 Point(grantPoint)
             )
         }
+    }
+
+    fun useCoupon(useCoupon: UseCoupon): PaymentPurchase {
+        val grantPoint = floor(purchaseQuantity.value * goodsPrice.value * useCoupon.pointRate.value).toInt()
+
+        return PaymentPurchase(
+            memberCompanyGoodsCode,
+            purchaseQuantity,
+            goodsPrice,
+            Point(grantPoint)
+        )
     }
 }
