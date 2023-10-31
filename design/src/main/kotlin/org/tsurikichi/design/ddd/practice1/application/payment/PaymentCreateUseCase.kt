@@ -6,6 +6,7 @@ import org.tsurikichi.design.ddd.practice1.domain.payment.IPaymentRepository
 import org.tsurikichi.design.ddd.practice1.domain.payment.PaymentFactory
 import org.tsurikichi.design.ddd.practice1.domain.payment.PaymentMethod
 import org.tsurikichi.design.ddd.practice1.domain.payment.PaymentPurchase
+import org.tsurikichi.design.ddd.practice1.domain.payment.ReceiptNumberDuplicationCheckService
 import org.tsurikichi.design.ddd.practice1.domain.share.CouponCode
 import org.tsurikichi.design.ddd.practice1.domain.share.GoodsPrice
 import org.tsurikichi.design.ddd.practice1.domain.share.MemberCode
@@ -22,7 +23,8 @@ import org.tsurikichi.design.ddd.practice1.domain.shop.MemberCompanyGoodsCode
 class PaymentCreateUseCase(
     private val paymentRepository: IPaymentRepository,
     private val distributeCouponRepository: IDistributionCouponRepository,
-    private val paymentFactory: PaymentFactory
+    private val paymentFactory: PaymentFactory,
+    private val receiptNumberDuplicationCheckService: ReceiptNumberDuplicationCheckService,
 ) {
     data class Param(
         val receiptNumber: ReceiptNumber,
@@ -47,6 +49,8 @@ class PaymentCreateUseCase(
     }
 
     fun execute(param: Param) {
+        receiptNumberDuplicationCheckService.execute(param.receiptNumber)
+
         val paymentPurchases = param.paymentPurchases.map { PaymentPurchase.create(it.memberCompanyGoodsCode, it.purchaseQuantity, it.goodsPrice) }
         val paymentMethods = param.paymentMethods.map { PaymentMethod.create(it.paymentMethodCode, it.paymentMethodAmount) }
         val payment = paymentFactory.create(
