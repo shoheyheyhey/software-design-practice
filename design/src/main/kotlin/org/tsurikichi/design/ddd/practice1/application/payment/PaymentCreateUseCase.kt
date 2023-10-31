@@ -24,7 +24,7 @@ class PaymentCreateUseCase(
     private val paymentRepository: IPaymentRepository,
     private val distributeCouponRepository: IDistributionCouponRepository,
     private val paymentFactory: PaymentFactory,
-    private val receiptNumberDuplicationCheckService: ReceiptNumberDuplicationCheckService,
+    private val receiptNumberDuplicationCheckService: ReceiptNumberDuplicationCheckService
 ) {
     data class Param(
         val receiptNumber: ReceiptNumber,

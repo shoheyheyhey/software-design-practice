@@ -8,7 +8,7 @@ class ReceiptNumberDuplicationCheckService(
     private val paymentRepository: IPaymentRepository
 ) {
     fun execute(
-        receiptNumber: ReceiptNumber,
+        receiptNumber: ReceiptNumber
     ) {
         paymentRepository.findBy(receiptNumber)?.let { throw RuntimeException("Duplicate receipt number") }
     }
