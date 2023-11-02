@@ -32,6 +32,6 @@ class PaymentFactory(
 
         val useCoupon = couponCode?.let { useCouponRepository.findBy(it) }
         val paymentPurchaseWithCoupon = useCoupon?.let { paymentPurchases.map { it.useCoupon(useCoupon) } } ?: paymentPurchases
-        return Payment(receiptNumber, paymentDate, paymentAmount, usePoints, paymentMember, shopCode, useCoupon?.couponCode, paymentMethods, paymentPurchaseWithCoupon)
+        return Payment(receiptNumber, paymentDate, paymentAmount, paymentMember, shopCode, useCoupon?.couponCode, paymentMethods, paymentPurchaseWithCoupon)
     }
 }

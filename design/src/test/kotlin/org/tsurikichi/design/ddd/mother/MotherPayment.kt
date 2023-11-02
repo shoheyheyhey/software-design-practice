@@ -14,7 +14,6 @@ object MotherPayment {
             receiptNumber = ReceiptNumber("1"),
             paymentDate = PaymentDate(LocalDate.now()),
             paymentAmount = PaymentAmount(1_000),
-            usePoints = null,
             shopCode = ShopCode("1"),
             paymentMember = MotherPaymentMember.default(),
             couponCode = null,
