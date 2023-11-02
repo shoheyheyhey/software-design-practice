@@ -24,5 +24,31 @@ class PaymentMethod private constructor(
                 Point(grantPoint)
             )
         }
+
+        fun createFromDb(
+            paymentMethodCode: PaymentMethodCode,
+            paymentAmount: PaymentAmount,
+            grantPoint: Point
+        ): PaymentMethod {
+            return PaymentMethod(
+                paymentMethodCode,
+                paymentAmount,
+                grantPoint
+            )
+        }
     }
+
+    fun getDataModel(): PaymentMethodDataModel {
+        return PaymentMethodDataModel(
+            paymentMethodCode.value.toInt(),
+            paymentAmount.value,
+            grantPoint.value
+        )
+    }
+
+    data class PaymentMethodDataModel(
+        val paymentMethodCode: Int,
+        val paymentMethodAmount: Int,
+        val grantPoint: Int
+    )
 }

@@ -29,6 +29,20 @@ class PaymentPurchase private constructor(
                 Point(grantPoint)
             )
         }
+
+        fun createFromDb(
+            memberCompanyGoodsCode: MemberCompanyGoodsCode,
+            purchaseQuantity: PurchaseQuantity,
+            goodsPrice: GoodsPrice,
+            grantPoint: Point
+        ): PaymentPurchase {
+            return PaymentPurchase(
+                memberCompanyGoodsCode,
+                purchaseQuantity,
+                goodsPrice,
+                grantPoint
+            )
+        }
     }
 
     fun useCoupon(useCoupon: UseCoupon): PaymentPurchase {
@@ -41,4 +55,20 @@ class PaymentPurchase private constructor(
             Point(grantPoint)
         )
     }
+
+    fun getDataModel(): PaymentPurchaseDataModel {
+        return PaymentPurchaseDataModel(
+            memberCompanyGoodsCode.value.toInt(),
+            purchaseQuantity.value,
+            goodsPrice.value,
+            grantPoint.value
+        )
+    }
+
+    data class PaymentPurchaseDataModel(
+        val memberCompanyGoodsCode: Int,
+        val purchaseQuantity: Int,
+        val goodsPrice: Int,
+        val grantPoint: Int
+    )
 }
