@@ -11,9 +11,7 @@ object MotherPaymentPurchase {
         return PaymentPurchase.create(
             memberCompanyGoodsCode = MemberCompanyGoodsCode("1"),
             purchaseQuantity = PurchaseQuantity(1),
-            goodsPrice = GoodsPrice(1_000),
-            useCoupon = null
-
+            goodsPrice = GoodsPrice(1_000)
         )
     }
 }

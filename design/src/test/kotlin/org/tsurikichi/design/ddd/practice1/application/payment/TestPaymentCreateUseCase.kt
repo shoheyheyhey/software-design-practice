@@ -6,9 +6,10 @@ import io.mockk.verifySequence
 import org.junit.jupiter.api.Test
 import org.tsurikichi.design.ddd.mother.MotherPaymentMember
 import org.tsurikichi.design.ddd.practice1.domain.coupon.IDistributionCouponRepository
-import org.tsurikichi.design.ddd.practice1.domain.coupon.IUseCouponRepository
 import org.tsurikichi.design.ddd.practice1.domain.member.IPaymentMemberRepository
 import org.tsurikichi.design.ddd.practice1.domain.payment.IPaymentRepository
+import org.tsurikichi.design.ddd.practice1.domain.payment.PaymentFactory
+import org.tsurikichi.design.ddd.practice1.domain.payment.ReceiptNumberDuplicationCheckService
 import org.tsurikichi.design.ddd.practice1.domain.share.GoodsPrice
 import org.tsurikichi.design.ddd.practice1.domain.share.MemberCode
 import org.tsurikichi.design.ddd.practice1.domain.share.PaymentAmount
@@ -23,10 +24,11 @@ import java.time.LocalDate
 class TestPaymentCreateUseCase {
     private val memberRepository = mockkClass(IPaymentMemberRepository::class)
     private val paymentRepository = mockkClass(IPaymentRepository::class)
-    private val useCouponRepository = mockkClass(IUseCouponRepository::class)
     private val distributeCouponRepository = mockkClass(IDistributionCouponRepository::class)
+    private val paymentFactory = mockkClass(PaymentFactory::class)
+    private val receiptNumberDuplicationCheckService = mockkClass(ReceiptNumberDuplicationCheckService::class)
 
-    private val target = PaymentCreateUseCase(paymentRepository, useCouponRepository, distributeCouponRepository, memberRepository)
+    private val target = PaymentCreateUseCase(paymentRepository, distributeCouponRepository, paymentFactory, receiptNumberDuplicationCheckService)
 
     @Test
     fun `支払い登録できる`() {
