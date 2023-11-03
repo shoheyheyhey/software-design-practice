@@ -10,8 +10,9 @@ import org.tsurikichi.design.ddd.practice1.domain.payment.ReceiptNumberDuplicati
 import org.tsurikichi.design.ddd.practice1.domain.share.CouponCode
 import org.tsurikichi.design.ddd.practice1.domain.share.GoodsPrice
 import org.tsurikichi.design.ddd.practice1.domain.share.MemberCode
+import org.tsurikichi.design.ddd.practice1.domain.share.MemberCompanyCode
 import org.tsurikichi.design.ddd.practice1.domain.share.PaymentAmount
-import org.tsurikichi.design.ddd.practice1.domain.share.PaymentDate
+import org.tsurikichi.design.ddd.practice1.domain.share.PaymentDateTime
 import org.tsurikichi.design.ddd.practice1.domain.share.PaymentMethodCode
 import org.tsurikichi.design.ddd.practice1.domain.share.Point
 import org.tsurikichi.design.ddd.practice1.domain.share.PurchaseQuantity
@@ -28,10 +29,10 @@ class PaymentCreateUseCase(
 ) {
     data class Param(
         val receiptNumber: ReceiptNumber,
-        val paymentDate: PaymentDate,
-        val paymentAmount: PaymentAmount,
+        val paymentDateTime: PaymentDateTime,
         val usePoints: Point?,
         val memberCode: MemberCode,
+        val companyCode: MemberCompanyCode,
         val shopCode: ShopCode,
         val couponCode: CouponCode?,
         val paymentPurchases: List<PaymentPurchase>,
@@ -55,10 +56,10 @@ class PaymentCreateUseCase(
         val paymentMethods = param.paymentMethods.map { PaymentMethod.create(it.paymentMethodCode, it.paymentMethodAmount) }
         val payment = paymentFactory.create(
             param.receiptNumber,
-            param.paymentDate,
-            param.paymentAmount,
+            param.paymentDateTime,
             param.memberCode,
             param.usePoints,
+            param.companyCode,
             param.shopCode,
             param.couponCode,
             paymentPurchases,

@@ -5,8 +5,8 @@ import org.tsurikichi.design.ddd.practice1.domain.coupon.IUseCouponRepository
 import org.tsurikichi.design.ddd.practice1.domain.member.IPaymentMemberRepository
 import org.tsurikichi.design.ddd.practice1.domain.share.CouponCode
 import org.tsurikichi.design.ddd.practice1.domain.share.MemberCode
-import org.tsurikichi.design.ddd.practice1.domain.share.PaymentAmount
-import org.tsurikichi.design.ddd.practice1.domain.share.PaymentDate
+import org.tsurikichi.design.ddd.practice1.domain.share.MemberCompanyCode
+import org.tsurikichi.design.ddd.practice1.domain.share.PaymentDateTime
 import org.tsurikichi.design.ddd.practice1.domain.share.Point
 import org.tsurikichi.design.ddd.practice1.domain.share.ReceiptNumber
 import org.tsurikichi.design.ddd.practice1.domain.share.ShopCode
@@ -18,10 +18,10 @@ class PaymentFactory(
 ) {
     fun create(
         receiptNumber: ReceiptNumber,
-        paymentDate: PaymentDate,
-        paymentAmount: PaymentAmount,
+        paymentDateTime: PaymentDateTime,
         memberCode: MemberCode,
         usePoints: Point?,
+        companyCode: MemberCompanyCode,
         shopCode: ShopCode,
         couponCode: CouponCode?,
         paymentPurchases: List<PaymentPurchase>,
@@ -32,6 +32,6 @@ class PaymentFactory(
 
         val useCoupon = couponCode?.let { useCouponRepository.findBy(it) }
         val paymentPurchaseWithCoupon = useCoupon?.let { paymentPurchases.map { it.useCoupon(useCoupon) } } ?: paymentPurchases
-        return Payment(receiptNumber, paymentDate, paymentAmount, paymentMember, shopCode, useCoupon?.couponCode, paymentMethods, paymentPurchaseWithCoupon)
+        return Payment(receiptNumber, paymentDateTime, paymentMember, companyCode, shopCode, useCoupon?.couponCode, paymentMethods, paymentPurchaseWithCoupon)
     }
 }

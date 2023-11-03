@@ -1,13 +1,13 @@
 package org.tsurikichi.design.ddd.practice1.presentation.payment
 
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class PaymentCreateRequest(
     val receiptNumber: String,
-    val paymentDate: LocalDate,
-    val paymentAmount: Int,
+    val paymentDateTime: LocalDateTime,
     val usePoints: Int?,
     val memberCode: String,
+    val companyCode: String,
     val shopCode: String,
     val couponCode: String?,
     val paymentPurchases: List<PaymentPurchase>,

@@ -3,14 +3,14 @@ package org.tsurikichi.design.ddd.practice1.domain.payment
 import org.tsurikichi.design.ddd.practice1.domain.member.PaymentMember
 import org.tsurikichi.design.ddd.practice1.domain.share.CouponCode
 import org.tsurikichi.design.ddd.practice1.domain.share.MemberCompanyCode
-import org.tsurikichi.design.ddd.practice1.domain.share.PaymentDate
+import org.tsurikichi.design.ddd.practice1.domain.share.PaymentDateTime
 import org.tsurikichi.design.ddd.practice1.domain.share.ReceiptNumber
 import org.tsurikichi.design.ddd.practice1.domain.share.ShopCode
 import java.time.LocalDateTime
 
 class Payment(
     val receiptNumber: ReceiptNumber,
-    private val paymentDate: PaymentDate,
+    private val paymentDateTime: PaymentDateTime,
     private val paymentMember: PaymentMember,
     private val companyCode: MemberCompanyCode,
     private val shopCode: ShopCode,
@@ -25,7 +25,7 @@ class Payment(
     fun getDataModel(): PaymentDataModel {
         return PaymentDataModel(
             receiptNumber = receiptNumber.value.toInt(),
-            paymentDate = paymentDate.value,
+            paymentDate = paymentDateTime.value,
             paymentMember = paymentMember.getDataModel(),
             companyCode = companyCode.value.toInt(),
             shopCode = shopCode.value.toInt(),

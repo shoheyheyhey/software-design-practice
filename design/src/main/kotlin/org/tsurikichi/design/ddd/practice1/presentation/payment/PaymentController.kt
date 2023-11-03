@@ -8,8 +8,9 @@ import org.tsurikichi.design.ddd.practice1.application.payment.PaymentCreateUseC
 import org.tsurikichi.design.ddd.practice1.domain.share.CouponCode
 import org.tsurikichi.design.ddd.practice1.domain.share.GoodsPrice
 import org.tsurikichi.design.ddd.practice1.domain.share.MemberCode
+import org.tsurikichi.design.ddd.practice1.domain.share.MemberCompanyCode
 import org.tsurikichi.design.ddd.practice1.domain.share.PaymentAmount
-import org.tsurikichi.design.ddd.practice1.domain.share.PaymentDate
+import org.tsurikichi.design.ddd.practice1.domain.share.PaymentDateTime
 import org.tsurikichi.design.ddd.practice1.domain.share.PaymentMethodCode
 import org.tsurikichi.design.ddd.practice1.domain.share.Point
 import org.tsurikichi.design.ddd.practice1.domain.share.PurchaseQuantity
@@ -26,10 +27,10 @@ class PaymentController(private val paymentCreateUseCase: PaymentCreateUseCase) 
         paymentCreateUseCase.execute(
             param = PaymentCreateUseCase.Param(
                 ReceiptNumber(request.receiptNumber),
-                PaymentDate(request.paymentDate),
-                PaymentAmount(request.paymentAmount),
+                PaymentDateTime(request.paymentDateTime),
                 request.usePoints?.let { Point(request.usePoints) },
                 MemberCode(request.memberCode),
+                MemberCompanyCode(request.companyCode),
                 ShopCode(request.shopCode),
                 request.couponCode?.let { CouponCode(request.couponCode) },
                 request.paymentPurchases.map {

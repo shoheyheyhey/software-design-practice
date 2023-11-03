@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import org.tsurikichi.design.ddd.practice1.domain.payment.IPaymentRepository
 import org.tsurikichi.design.ddd.practice1.domain.payment.Payment
+import org.tsurikichi.design.ddd.practice1.domain.share.ReceiptNumber
 
 @Repository
 class PaymentRepository(private val dslContext: DSLContext) : IPaymentRepository {
@@ -30,5 +31,11 @@ class PaymentRepository(private val dslContext: DSLContext) : IPaymentRepository
         }
 
         dslContext.update(MEMBER).set(MEMBER.POINT_BALANCE, dataModel.paymentMember.remainingPoints).where(MEMBER.MEMBER_CODE.eq(dataModel.paymentMember.memberCode))
+    }
+
+    override fun findBy(receiptNumber: ReceiptNumber): Payment? {
+        dslContext.selectFrom(PAYMENT).where(PAYMENT.RECEIPT_NUMBER.eq(receiptNumber.value.toInt()))
+        // TODO: implement
+        return null
     }
 }

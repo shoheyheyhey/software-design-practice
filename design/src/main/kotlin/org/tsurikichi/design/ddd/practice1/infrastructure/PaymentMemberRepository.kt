@@ -16,8 +16,8 @@ class PaymentMemberRepository(private val dslContext: DSLContext) : IPaymentMemb
             .fetchOne() ?: throw IllegalArgumentException("会員が存在しません")
 
         return PaymentMember(
-            MemberCode(record[MEMBER.MEMBER_CODE].toString()),
-            Point(record[MEMBER.POINT_BALANCE])
+            memberCode = MemberCode(record[MEMBER.MEMBER_CODE].toString()),
+            remainingPoints = Point(record[MEMBER.POINT_BALANCE])
         )
     }
 }
