@@ -4,9 +4,11 @@ import org.tsurikichi.design.lib.fixtures.MemberFixture
 import org.tsurikichi.design.lib.objectmother.MotherPaymentMember
 
 fun MemberFixture.default(): MemberFixture {
+    val motherPaymentMember = MotherPaymentMember.default()
+
     return MemberFixture(
-        member_code = 1,
+        member_code = motherPaymentMember.memberCode.value.toInt(),
         member_name = "てすと　たろう",
-        point_balance = MotherPaymentMember.default().getDataModel().remainingPoints
+        point_balance = motherPaymentMember.getDataModel().remainingPoints
     )
 }
