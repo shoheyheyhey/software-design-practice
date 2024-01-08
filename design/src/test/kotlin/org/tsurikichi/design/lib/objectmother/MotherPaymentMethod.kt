@@ -1,4 +1,4 @@
-package org.tsurikichi.design.ddd.mother
+package org.tsurikichi.design.lib.objectmother
 
 import org.tsurikichi.design.ddd.practice1.domain.payment.PaymentMethod
 import org.tsurikichi.design.ddd.practice1.domain.share.PaymentAmount

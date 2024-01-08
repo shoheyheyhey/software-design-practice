@@ -4,7 +4,6 @@ import io.mockk.every
 import io.mockk.mockkClass
 import io.mockk.verifySequence
 import org.junit.jupiter.api.Test
-import org.tsurikichi.design.ddd.mother.MotherPayment
 import org.tsurikichi.design.ddd.practice1.domain.coupon.IDistributionCouponRepository
 import org.tsurikichi.design.ddd.practice1.domain.payment.IPaymentRepository
 import org.tsurikichi.design.ddd.practice1.domain.payment.PaymentFactory
@@ -19,6 +18,7 @@ import org.tsurikichi.design.ddd.practice1.domain.share.PurchaseQuantity
 import org.tsurikichi.design.ddd.practice1.domain.share.ReceiptNumber
 import org.tsurikichi.design.ddd.practice1.domain.share.ShopCode
 import org.tsurikichi.design.ddd.practice1.domain.shop.MemberCompanyGoodsCode
+import org.tsurikichi.design.lib.objectmother.MotherPayment
 import java.time.LocalDateTime
 
 class TestPaymentCreateUseCase {

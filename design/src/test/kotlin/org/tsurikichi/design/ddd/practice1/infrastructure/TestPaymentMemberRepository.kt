@@ -1,7 +1,5 @@
 package org.tsurikichi.design.ddd.practice1.infrastructure
 
-import nu.studer.sample.tables.Member.MEMBER
-import org.jooq.DSLContext
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -9,40 +7,39 @@ import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
-import org.tsurikichi.design.ddd.helper.DatabaseSetupHelper
 import org.tsurikichi.design.ddd.practice1.domain.share.MemberCode
+import org.tsurikichi.design.lib.fixtures.MemberFixture
+import org.tsurikichi.design.lib.fixtures.extension.default
+import org.tsurikichi.design.lib.fixtures.insert
+import org.tsurikichi.design.lib.helper.deleteAllTables
+import org.tsurikichi.design.lib.objectmother.MotherPaymentMember
 
 @SpringBootTest
 @Transactional
-class TestPaymentMemberRepository {
-    @Autowired
-    private lateinit var dslContext: DSLContext
+class TestPaymentMemberRepository : DatabaseTestBase() {
 
     @Autowired
     private lateinit var target: PaymentMemberRepository
 
-    @Autowired
-    private lateinit var databaseSetupHelper: DatabaseSetupHelper
-
     @BeforeEach
     fun setup() {
-        databaseSetupHelper.truncateAll()
-        dslContext.insertInto(MEMBER, MEMBER.MEMBER_CODE, MEMBER.MEMBER_NAME, MEMBER.POINT_BALANCE)
-            .values(123, "TestMember", 1000)
-            .execute()
+        db {
+            deleteAllTables()
+            insert(MemberFixture().default())
+        }
     }
 
     @Test
     fun `findBy should return PaymentMember when memberCode exists`() {
-        val memberCode = MemberCode("123")
+        val memberCode = MotherPaymentMember.default().memberCode
 
         val result = target.findBy(memberCode)
-        assertEquals("123", result.memberCode.value)
+        assertEquals(memberCode, result.memberCode)
     }
 
     @Test
     fun `findBy should throw IllegalArgumentException when memberCode does not exist`() {
-        val memberCode = MemberCode("999") // Non-existent member code
+        val memberCode = MemberCode("999")
 
         val exception = assertThrows<IllegalArgumentException> {
             target.findBy(memberCode)

@@ -1,41 +1,37 @@
 package org.tsurikichi.design.ddd.practice1.infrastructure
 
-import org.jooq.DSLContext
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
-import org.tsurikichi.design.ddd.builder.BuilderPayment
-import org.tsurikichi.design.ddd.builder.BuilderPaymentMember
-import org.tsurikichi.design.ddd.builder.BuilderPointTransactionLog
-import org.tsurikichi.design.ddd.helper.DatabaseSetupHelper
 import org.tsurikichi.design.ddd.practice1.application.member.IListPointLogByMemberQueryService
 import org.tsurikichi.design.ddd.practice1.domain.share.MemberCode
-import org.tsurikichi.design.ddd.practice1.domain.share.ReceiptNumber
+import org.tsurikichi.design.lib.fixtures.MemberFixture
+import org.tsurikichi.design.lib.fixtures.PaymentFixture
+import org.tsurikichi.design.lib.fixtures.PointTransactionLogFixture
+import org.tsurikichi.design.lib.fixtures.extension.default
+import org.tsurikichi.design.lib.fixtures.insert
+import org.tsurikichi.design.lib.helper.deleteAllTables
 
 @SpringBootTest
 @Transactional
-class TestListPointLogByMemberQueryService {
-    @Autowired
-    private lateinit var dslContext: DSLContext
-
+class TestListPointLogByMemberQueryService : DatabaseTestBase() {
     @Autowired
     private lateinit var target: ListPointLogByMemberQueryService
 
-    @Autowired
-    private lateinit var databaseSetupHelper: DatabaseSetupHelper
-
     @BeforeEach
     fun setup() {
-        databaseSetupHelper.truncateAll()
-        BuilderPaymentMember().insert(dslContext)
-        BuilderPayment(receiptNumber = ReceiptNumber("1")).insert(dslContext)
-        BuilderPayment(receiptNumber = ReceiptNumber("2")).insert(dslContext)
-        BuilderPointTransactionLog(receiptNumber = ReceiptNumber("1")).insert(dslContext)
-        BuilderPointTransactionLog(receiptNumber = ReceiptNumber("2")).insert(dslContext)
-        BuilderPointTransactionLog(receiptNumber = ReceiptNumber("2"), pointLogType = IListPointLogByMemberQueryService.PointLogType.USE).insert(dslContext)
+        db {
+            deleteAllTables()
+            insert(MemberFixture().default())
+            insert(PaymentFixture().default())
+            insert(PaymentFixture().default().copy(receipt_number = 2))
+            insert(PointTransactionLogFixture().default())
+            insert(PointTransactionLogFixture().default().copy(receipt_number = 2))
+            insert(PointTransactionLogFixture().default().copy(receipt_number = 2, point_log_type = IListPointLogByMemberQueryService.PointLogType.USE.name))
+        }
     }
 
     @Test
