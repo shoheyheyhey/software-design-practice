@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class TestWorkFlowTask {
 
     @Nested
-    inner class taskUpdate {
+    inner class TaskUpdate {
 
         @Test
         fun `operatorとconsumerのチェックが通ったらタスクが完了する`() {
@@ -24,6 +24,21 @@ class TestWorkFlowTask {
             task.taskStatus = TaskStatus.COMPLETE
 
             Assertions.assertFalse(task.isComplete())
+        }
+
+        @Test
+        fun `実装の詳細まで検証していてテストコードがリファクタリングの耐性を失う`() {
+            val task = WorkFlowTask()
+            task.taskUpdate(consumerCheck = true, operatorCheck = true)
+
+            Assertions.assertEquals(TaskStatus.COMPLETE, task.taskStatus)
+            Assertions.assertTrue(task.isComplete())
+        }
+
+        @Test
+        fun `テスト対象を動かしただけで検証しておらず意味がない`() {
+            val task = WorkFlowTask()
+            task.taskUpdate(consumerCheck = true, operatorCheck = true)
         }
     }
 }
