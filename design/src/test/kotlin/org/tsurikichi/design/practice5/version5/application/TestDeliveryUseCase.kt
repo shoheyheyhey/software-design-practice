@@ -34,7 +34,7 @@ class TestDeliveryUseCase {
     @Test
     fun `配送日に過去日が指定されると配送できない`() {
         assertThrows<IllegalArgumentException> {
-            target.delivery(deliveryDate = LocalDate.of(2022, 1, 1), previousMonthlyTotalAmount = 100)
+            target.delivery(deliveryDate = LocalDate.of(2022, 1, 1), previousMonthlyTotalAmount = 10001)
         }
     }
 }
