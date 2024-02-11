@@ -1,8 +1,8 @@
 package org.tsurikichi.design.practice5.version5.application
 
 import org.springframework.stereotype.Service
-import org.tsurikichi.design.practice5.version4.domain.Delivery
-import org.tsurikichi.design.practice5.version4.domain.Rank
+import org.tsurikichi.design.practice5.version5.domain.Delivery
+import org.tsurikichi.design.practice5.version5.domain.Rank
 import java.time.LocalDate
 
 @Service
